@@ -1,0 +1,16 @@
+[package]
+name = "alice_2d"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+alice_export = { path = "./crates/alice_export" }
+
+
+
+
+[[example]]
+name = "hello"
+path = "examples/hello.rs"
