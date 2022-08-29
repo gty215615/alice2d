@@ -1,6 +1,277 @@
 use alice_core::{math::Vector2f, color::Color};
 
 
+
+pub const CIRCLE_8: [Vector2f; 9] = [
+    Vector2f {x: 1.000000, y: 0.000000 },
+    Vector2f {x: 0.707107, y: 0.707107 },
+    Vector2f {x: 0.000000, y: 1.000000 },
+    Vector2f {x: -0.707107, y: 0.707107 },
+    Vector2f {x: -1.000000, y: 0.000000 },
+    Vector2f {x: -0.707107, y: -0.707107 },
+    Vector2f {x: 0.000000, y: -1.000000 },
+    Vector2f {x: 0.707107, y: -0.707107 },
+    Vector2f {x: 1.000000, y: 0.000000 },
+];
+
+pub const CIRCLE_16: [Vector2f; 17] = [
+    Vector2f {x: 1.000000, y: 0.000000 },
+    Vector2f {x: 0.923880, y: 0.382683 },
+    Vector2f {x: 0.707107, y: 0.707107 },
+    Vector2f {x: 0.382683, y: 0.923880 },
+    Vector2f {x: 0.000000, y: 1.000000 },
+    Vector2f {x: -0.382684, y: 0.923880 },
+    Vector2f {x: -0.707107, y: 0.707107 },
+    Vector2f {x: -0.923880, y: 0.382683 },
+    Vector2f {x: -1.000000, y: 0.000000 },
+    Vector2f {x: -0.923880, y: -0.382683 },
+    Vector2f {x: -0.707107, y: -0.707107 },
+    Vector2f {x: -0.382684, y: -0.923880 },
+    Vector2f {x: 0.000000, y: -1.000000 },
+    Vector2f {x: 0.382684, y: -0.923879 },
+    Vector2f {x: 0.707107, y: -0.707107 },
+    Vector2f {x: 0.923880, y: -0.382683 },
+    Vector2f {x: 1.000000, y: 0.000000 },
+];
+
+pub const CIRCLE_32: [Vector2f; 33] = [
+    Vector2f {x: 1.000000, y: 0.000000 },
+    Vector2f {x: 0.980785, y: 0.195090 },
+    Vector2f {x: 0.923880, y: 0.382683 },
+    Vector2f {x: 0.831470, y: 0.555570 },
+    Vector2f {x: 0.707107, y: 0.707107 },
+    Vector2f {x: 0.555570, y: 0.831470 },
+    Vector2f {x: 0.382683, y: 0.923880 },
+    Vector2f {x: 0.195090, y: 0.980785 },
+    Vector2f {x: 0.000000, y: 1.000000 },
+    Vector2f {x: -0.195090, y: 0.980785 },
+    Vector2f {x: -0.382683, y: 0.923880 },
+    Vector2f {x: -0.555570, y: 0.831470 },
+    Vector2f {x: -0.707107, y: 0.707107 },
+    Vector2f {x: -0.831470, y: 0.555570 },
+    Vector2f {x: -0.923880, y: 0.382683 },
+    Vector2f {x: -0.980785, y: 0.195090 },
+    Vector2f {x: -1.000000, y: 0.000000 },
+    Vector2f {x: -0.980785, y: -0.195090 },
+    Vector2f {x: -0.923880, y: -0.382683 },
+    Vector2f {x: -0.831470, y: -0.555570 },
+    Vector2f {x: -0.707107, y: -0.707107 },
+    Vector2f {x: -0.555570, y: -0.831470 },
+    Vector2f {x: -0.382683, y: -0.923880 },
+    Vector2f {x: -0.195090, y: -0.980785 },
+    Vector2f {x: -0.000000, y: -1.000000 },
+    Vector2f {x: 0.195090, y: -0.980785 },
+    Vector2f {x: 0.382683, y: -0.923880 },
+    Vector2f {x: 0.555570, y: -0.831470 },
+    Vector2f {x: 0.707107, y: -0.707107 },
+    Vector2f {x: 0.831470, y: -0.555570 },
+    Vector2f {x: 0.923880, y: -0.382683 },
+    Vector2f {x: 0.980785, y: -0.195090 },
+    Vector2f {x: 1.000000, y: -0.000000 },
+];
+
+pub const CIRCLE_64: [Vector2f; 65] = [
+    Vector2f {x: 1.000000, y: 0.000000 },
+    Vector2f {x: 0.995185, y: 0.098017 },
+    Vector2f {x: 0.980785, y: 0.195090 },
+    Vector2f {x: 0.956940, y: 0.290285 },
+    Vector2f {x: 0.923880, y: 0.382683 },
+    Vector2f {x: 0.881921, y: 0.471397 },
+    Vector2f {x: 0.831470, y: 0.555570 },
+    Vector2f {x: 0.773010, y: 0.634393 },
+    Vector2f {x: 0.707107, y: 0.707107 },
+    Vector2f {x: 0.634393, y: 0.773010 },
+    Vector2f {x: 0.555570, y: 0.831470 },
+    Vector2f {x: 0.471397, y: 0.881921 },
+    Vector2f {x: 0.382683, y: 0.923880 },
+    Vector2f {x: 0.290285, y: 0.956940 },
+    Vector2f {x: 0.195090, y: 0.980785 },
+    Vector2f {x: 0.098017, y: 0.995185 },
+    Vector2f {x: 0.000000, y: 1.000000 },
+    Vector2f {x: -0.098017, y: 0.995185 },
+    Vector2f {x: -0.195090, y: 0.980785 },
+    Vector2f {x: -0.290285, y: 0.956940 },
+    Vector2f {x: -0.382683, y: 0.923880 },
+    Vector2f {x: -0.471397, y: 0.881921 },
+    Vector2f {x: -0.555570, y: 0.831470 },
+    Vector2f {x: -0.634393, y: 0.773010 },
+    Vector2f {x: -0.707107, y: 0.707107 },
+    Vector2f {x: -0.773010, y: 0.634393 },
+    Vector2f {x: -0.831470, y: 0.555570 },
+    Vector2f {x: -0.881921, y: 0.471397 },
+    Vector2f {x: -0.923880, y: 0.382683 },
+    Vector2f {x: -0.956940, y: 0.290285 },
+    Vector2f {x: -0.980785, y: 0.195090 },
+    Vector2f {x: -0.995185, y: 0.098017 },
+    Vector2f {x: -1.000000, y: 0.000000 },
+    Vector2f {x: -0.995185, y: -0.098017 },
+    Vector2f {x: -0.980785, y: -0.195090 },
+    Vector2f {x: -0.956940, y: -0.290285 },
+    Vector2f {x: -0.923880, y: -0.382683 },
+    Vector2f {x: -0.881921, y: -0.471397 },
+    Vector2f {x: -0.831470, y: -0.555570 },
+    Vector2f {x: -0.773010, y: -0.634393 },
+    Vector2f {x: -0.707107, y: -0.707107 },
+    Vector2f {x: -0.634393, y: -0.773010 },
+    Vector2f {x: -0.555570, y: -0.831470 },
+    Vector2f {x: -0.471397, y: -0.881921 },
+    Vector2f {x: -0.382683, y: -0.923880 },
+    Vector2f {x: -0.290285, y: -0.956940 },
+    Vector2f {x: -0.195090, y: -0.980785 },
+    Vector2f {x: -0.098017, y: -0.995185 },
+    Vector2f {x: -0.000000, y: -1.000000 },
+    Vector2f {x: 0.098017, y: -0.995185 },
+    Vector2f {x: 0.195090, y: -0.980785 },
+    Vector2f {x: 0.290285, y: -0.956940 },
+    Vector2f {x: 0.382683, y: -0.923880 },
+    Vector2f {x: 0.471397, y: -0.881921 },
+    Vector2f {x: 0.555570, y: -0.831470 },
+    Vector2f {x: 0.634393, y: -0.773010 },
+    Vector2f {x: 0.707107, y: -0.707107 },
+    Vector2f {x: 0.773010, y: -0.634393 },
+    Vector2f {x: 0.831470, y: -0.555570 },
+    Vector2f {x: 0.881921, y: -0.471397 },
+    Vector2f {x: 0.923880, y: -0.382683 },
+    Vector2f {x: 0.956940, y: -0.290285 },
+    Vector2f {x: 0.980785, y: -0.195090 },
+    Vector2f {x: 0.995185, y: -0.098017 },
+    Vector2f {x: 1.000000, y: -0.000000 },
+];
+
+pub const CIRCLE_128: [Vector2f; 129] = [
+    Vector2f {x: 1.000000, y: 0.000000 },
+    Vector2f {x: 0.998795, y: 0.049068 },
+    Vector2f {x: 0.995185, y: 0.098017 },
+    Vector2f {x: 0.989177, y: 0.146730 },
+    Vector2f {x: 0.980785, y: 0.195090 },
+    Vector2f {x: 0.970031, y: 0.242980 },
+    Vector2f {x: 0.956940, y: 0.290285 },
+    Vector2f {x: 0.941544, y: 0.336890 },
+    Vector2f {x: 0.923880, y: 0.382683 },
+    Vector2f {x: 0.903989, y: 0.427555 },
+    Vector2f {x: 0.881921, y: 0.471397 },
+    Vector2f {x: 0.857729, y: 0.514103 },
+    Vector2f {x: 0.831470, y: 0.555570 },
+    Vector2f {x: 0.803208, y: 0.595699 },
+    Vector2f {x: 0.773010, y: 0.634393 },
+    Vector2f {x: 0.740951, y: 0.671559 },
+    Vector2f {x: 0.707107, y: 0.707107 },
+    Vector2f {x: 0.671559, y: 0.740951 },
+    Vector2f {x: 0.634393, y: 0.773010 },
+    Vector2f {x: 0.595699, y: 0.803208 },
+    Vector2f {x: 0.555570, y: 0.831470 },
+    Vector2f {x: 0.514103, y: 0.857729 },
+    Vector2f {x: 0.471397, y: 0.881921 },
+    Vector2f {x: 0.427555, y: 0.903989 },
+    Vector2f {x: 0.382683, y: 0.923880 },
+    Vector2f {x: 0.336890, y: 0.941544 },
+    Vector2f {x: 0.290285, y: 0.956940 },
+    Vector2f {x: 0.242980, y: 0.970031 },
+    Vector2f {x: 0.195090, y: 0.980785 },
+    Vector2f {x: 0.146730, y: 0.989177 },
+    Vector2f {x: 0.098017, y: 0.995185 },
+    Vector2f {x: 0.049068, y: 0.998795 },
+    Vector2f {x: 0.000000, y: 1.000000 },
+    Vector2f {x: -0.049068, y: 0.998795 },
+    Vector2f {x: -0.098017, y: 0.995185 },
+    Vector2f {x: -0.146730, y: 0.989177 },
+    Vector2f {x: -0.195090, y: 0.980785 },
+    Vector2f {x: -0.242980, y: 0.970031 },
+    Vector2f {x: -0.290285, y: 0.956940 },
+    Vector2f {x: -0.336890, y: 0.941544 },
+    Vector2f {x: -0.382683, y: 0.923880 },
+    Vector2f {x: -0.427555, y: 0.903989 },
+    Vector2f {x: -0.471397, y: 0.881921 },
+    Vector2f {x: -0.514103, y: 0.857729 },
+    Vector2f {x: -0.555570, y: 0.831470 },
+    Vector2f {x: -0.595699, y: 0.803208 },
+    Vector2f {x: -0.634393, y: 0.773010 },
+    Vector2f {x: -0.671559, y: 0.740951 },
+    Vector2f {x: -0.707107, y: 0.707107 },
+    Vector2f {x: -0.740951, y: 0.671559 },
+    Vector2f {x: -0.773010, y: 0.634393 },
+    Vector2f {x: -0.803208, y: 0.595699 },
+    Vector2f {x: -0.831470, y: 0.555570 },
+    Vector2f {x: -0.857729, y: 0.514103 },
+    Vector2f {x: -0.881921, y: 0.471397 },
+    Vector2f {x: -0.903989, y: 0.427555 },
+    Vector2f {x: -0.923880, y: 0.382683 },
+    Vector2f {x: -0.941544, y: 0.336890 },
+    Vector2f {x: -0.956940, y: 0.290285 },
+    Vector2f {x: -0.970031, y: 0.242980 },
+    Vector2f {x: -0.980785, y: 0.195090 },
+    Vector2f {x: -0.989177, y: 0.146730 },
+    Vector2f {x: -0.995185, y: 0.098017 },
+    Vector2f {x: -0.998795, y: 0.049068 },
+    Vector2f {x: -1.000000, y: 0.000000 },
+    Vector2f {x: -0.998795, y: -0.049068 },
+    Vector2f {x: -0.995185, y: -0.098017 },
+    Vector2f {x: -0.989177, y: -0.146730 },
+    Vector2f {x: -0.980785, y: -0.195090 },
+    Vector2f {x: -0.970031, y: -0.242980 },
+    Vector2f {x: -0.956940, y: -0.290285 },
+    Vector2f {x: -0.941544, y: -0.336890 },
+    Vector2f {x: -0.923880, y: -0.382683 },
+    Vector2f {x: -0.903989, y: -0.427555 },
+    Vector2f {x: -0.881921, y: -0.471397 },
+    Vector2f {x: -0.857729, y: -0.514103 },
+    Vector2f {x: -0.831470, y: -0.555570 },
+    Vector2f {x: -0.803208, y: -0.595699 },
+    Vector2f {x: -0.773010, y: -0.634393 },
+    Vector2f {x: -0.740951, y: -0.671559 },
+    Vector2f {x: -0.707107, y: -0.707107 },
+    Vector2f {x: -0.671559, y: -0.740951 },
+    Vector2f {x: -0.634393, y: -0.773010 },
+    Vector2f {x: -0.595699, y: -0.803208 },
+    Vector2f {x: -0.555570, y: -0.831470 },
+    Vector2f {x: -0.514103, y: -0.857729 },
+    Vector2f {x: -0.471397, y: -0.881921 },
+    Vector2f {x: -0.427555, y: -0.903989 },
+    Vector2f {x: -0.382683, y: -0.923880 },
+    Vector2f {x: -0.336890, y: -0.941544 },
+    Vector2f {x: -0.290285, y: -0.956940 },
+    Vector2f {x: -0.242980, y: -0.970031 },
+    Vector2f {x: -0.195090, y: -0.980785 },
+    Vector2f {x: -0.146730, y: -0.989177 },
+    Vector2f {x: -0.098017, y: -0.995185 },
+    Vector2f {x: -0.049068, y: -0.998795 },
+    Vector2f {x: -0.000000, y: -1.000000 },
+    Vector2f {x: 0.049068, y: -0.998795 },
+    Vector2f {x: 0.098017, y: -0.995185 },
+    Vector2f {x: 0.146730, y: -0.989177 },
+    Vector2f {x: 0.195090, y: -0.980785 },
+    Vector2f {x: 0.242980, y: -0.970031 },
+    Vector2f {x: 0.290285, y: -0.956940 },
+    Vector2f {x: 0.336890, y: -0.941544 },
+    Vector2f {x: 0.382683, y: -0.923880 },
+    Vector2f {x: 0.427555, y: -0.903989 },
+    Vector2f {x: 0.471397, y: -0.881921 },
+    Vector2f {x: 0.514103, y: -0.857729 },
+    Vector2f {x: 0.555570, y: -0.831470 },
+    Vector2f {x: 0.595699, y: -0.803208 },
+    Vector2f {x: 0.634393, y: -0.773010 },
+    Vector2f {x: 0.671559, y: -0.740951 },
+    Vector2f {x: 0.707107, y: -0.707107 },
+    Vector2f {x: 0.740951, y: -0.671559 },
+    Vector2f {x: 0.773010, y: -0.634393 },
+    Vector2f {x: 0.803208, y: -0.595699 },
+    Vector2f {x: 0.831470, y: -0.555570 },
+    Vector2f {x: 0.857729, y: -0.514103 },
+    Vector2f {x: 0.881921, y: -0.471397 },
+    Vector2f {x: 0.903989, y: -0.427555 },
+    Vector2f {x: 0.923880, y: -0.382683 },
+    Vector2f {x: 0.941544, y: -0.336890 },
+    Vector2f {x: 0.956940, y: -0.290285 },
+    Vector2f {x: 0.970031, y: -0.242980 },
+    Vector2f {x: 0.980785, y: -0.195090 },
+    Vector2f {x: 0.989177, y: -0.146730 },
+    Vector2f {x: 0.995185, y: -0.098017 },
+    Vector2f {x: 0.998795, y: -0.049068 },
+    Vector2f {x: 1.000000, y: -0.000000 },
+];
+
+
+
 #[derive(Debug,PartialEq, PartialOrd)]
 pub enum PathType {
     Open,
@@ -38,6 +309,35 @@ impl Path {
         );
     }
 
+    pub fn add_circle(&mut self , center:Vector2f , radius:f32){
+        if radius <= 2.0 {
+            self.0.extend(CIRCLE_8.iter().map(|&n| PathPoint {
+                pos: center + n * radius,
+                normal: n,
+            }));
+        } else if radius <= 5.0 {
+            self.0.extend(CIRCLE_16.iter().map(|&n| PathPoint {
+                pos: center + n * radius,
+                normal: n,
+            }));
+        } else if radius < 18.0 {
+            self.0.extend(CIRCLE_32.iter().map(|&n| PathPoint {
+                pos: center + n * radius,
+                normal: n,
+            }));
+        } else if radius < 50.0 {
+            self.0.extend(CIRCLE_64.iter().map(|&n| PathPoint {
+                pos: center + n * radius,
+                normal: n,
+            }));
+        } else {
+            self.0.extend(CIRCLE_128.iter().map(|&n| PathPoint {
+                pos: center + n * radius,
+                normal: n,
+            }));
+        }
+    }
+
     pub fn add_line_segment(&mut self , pos:[Vector2f;2]) {
         self.reserve(2);
         // 获取到线段法向量
@@ -70,6 +370,8 @@ impl Path {
                 n1 = n0;
             }
             let normal = ((n0 + n1) / 2.0).normalize();
+
+            // TODO! 夹角很小情况
             self.add_point(positions[i], normal);
             n0 = n1;
         }
@@ -100,6 +402,7 @@ impl Path {
                 n1 = n0;
             }
             let normal = ((n0 + n1) / 2.0).normalize();
+            // TODO! 夹角很小情况
             self.add_point(positions[i], normal);
             n0 = n1;
         }

@@ -50,7 +50,7 @@ fn vs_main(
     var out: VertexOutput;
     out.tex_coord = a_tex_coord;
     let color = a_color;
-    out.color = vec4<f32>(linear_from_srgb(color.rgb), color.a / 255.0);
+    out.color = a_color;
     out.position = position_from_screen(a_pos);
     return out;
 }
@@ -65,5 +65,5 @@ fn vs_main(
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     // return in.color * textureSample(r_tex_color, r_tex_sampler, in.tex_coord);
-    return vec4<f32>(1.0,0.0,0.0,1.0);
+    return in.color;
 }

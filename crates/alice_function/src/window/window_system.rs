@@ -27,30 +27,27 @@ pub fn window_run(){
 
 
     let mut path = Path::new();
-    // path.add_line_segment([Vector2f::new(100.0,100.0) , Vector2f::new(500.0,100.0)]);
+    // path.add_line_segment([Vector2f::new(100.0,100.0) , Vector2f::new(500.0,200.0)]);
 
+    path.add_circle(Vector2f::new(100.0,100.0), 50.0);
 
-    path.add_line_closed(vec![
-        Vector2f::new(100.0,100.0) ,
-        Vector2f::new(100.0,300.0) ,
-        Vector2f::new(300.0,300.0) ,
-        Vector2f::new(300.0,100.0) ,
+    // path.add_line_closed(vec![
+    //     Vector2f::new(100.0,100.0) ,
+    //     Vector2f::new(100.0,300.0) ,
+    //     Vector2f::new(300.0,300.0) ,
+    //     Vector2f::new(300.0,100.0) ,
+
     
-    ]);
+    // ]);
 
     let mut mesh = Mesh::default();
 
-
-    stroke_path(path.0.as_slice() , Stroke {
-        width:15.0,
-        color:Color::BLUE
+  
+    stroke_path(2.0, path.0.as_slice() , Stroke {
+        width:1.0,
+        color:Color::WHITE
     } , PathType::Closed, &mut mesh);
-
-    for v in mesh.vertices.iter() {
-        println!("{:?}",v.pos);
-    }
-    println!("indics = {:?}",mesh.indices);
-   
+    println!("{:?}",mesh.vertices.len());
     let vb = rhi.borrow().device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
         label: Some("Vertex Buffer"),
         contents: bytemuck::cast_slice(&mesh.vertices),
