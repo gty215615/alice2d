@@ -328,6 +328,11 @@ where
 
 
     pub const ZERO:Vector2<f32> = Vector2{x:0.0,y:0.0};
+    pub const ZERO_U:Vector2<u32> = Vector2{x:0,y:0};
+    pub const Y_F:Vector2<f32> = Vector2{x:0.0,y:1.0};
+    pub const Y_U:Vector2<u32> = Vector2{x:0,y:1};
+    pub const X_F:Vector2<f32> = Vector2{x:1.0,y:0.0};
+    pub const X_U:Vector2<u32> = Vector2{x:1,y:0};
 }
 
 impl<T> Vector2<T> 

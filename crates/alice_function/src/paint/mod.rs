@@ -10,3 +10,5 @@ pub mod shape;
 pub mod layer;
 
 pub mod context;
+
+pub mod label;

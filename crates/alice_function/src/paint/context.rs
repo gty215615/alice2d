@@ -1,6 +1,8 @@
 use alice_core::color::Color;
+use image::GenericImage;
 
-use super::{path::{PathPoint, Stroke, PathType}, mesh::Mesh};
+
+use super::{path::{PathPoint, Stroke, PathType}, mesh::Mesh, label::font::Font};
 
 
 
@@ -14,7 +16,71 @@ pub struct Context {
 
 impl Context {
     pub fn begin_frame(&mut self){
+        let mut font = Font::new("path");
 
+        font.pre_common_char();
+
+
+        // let font_data = include_bytes!("../../../../assets/font/MONACO.TTF").as_slice();
+        // let font = Font::try_from_bytes(font_data as &[u8]).expect("error constructing a Font from bytes");
+        // let height: f32 = 24.8; // to get 80 chars across (fits most terminals); adjust as desired
+        // let pixel_height = height.ceil() as usize;
+    
+        // // 2x scale in x direction to counter the aspect ratio of monospace characters.
+        // let scale = Scale {
+        //     x: height * 2.0,
+        //     y: height,
+        // };
+    
+        // // The origin of a line of text is at the baseline (roughly where
+        // // non-descending letters sit). We don't want to clip the text, so we shift
+        // // it down with an offset when laying it out. v_metrics.ascent is the
+        // // distance between the baseline and the highest edge of any glyph in
+        // // the font. That's enough to guarantee that there's no clipping.
+        // let v_metrics = font.v_metrics(scale);
+        // let offset = rusttype::point(0.0, v_metrics.ascent);
+    
+        // // Glyphs to draw for "RustType". Feel free to try other strings.
+        // let glyphs: Vec<_> = font.layout("RustType", scale, offset).collect();
+    
+        // // Find the most visually pleasing width to display
+        // let width = glyphs
+        //     .iter()
+        //     .rev()
+        //     .map(|g| g.position().x as f32 + g.unpositioned().h_metrics().advance_width)
+        //     .next()
+        //     .unwrap_or(0.0)
+        //     .ceil() as usize;
+    
+        // println!("width: {}, height: {}", width, pixel_height);
+    
+        // // Rasterise directly into ASCII art.
+        // let mut image = image::DynamicImage::ImageRgba8(image::ImageBuffer::new(1024,64));
+        // let mut pixel_data = vec![b'@'; width * pixel_height];
+        // let mapping = b"@%#x+=:-. "; // The approximation of greyscale
+        // let mapping_scale = (mapping.len() - 1) as f32;
+        // for g in glyphs {
+        //     if let Some(bb) = g.pixel_bounding_box() {
+        //         g.draw(|x, y, v| {
+        //             // v should be in the range 0.0 to 1.0
+        //             let i = (v * mapping_scale + 0.5) as usize;
+        //             // so something's wrong if you get $ in the output.
+        //             let c = mapping.get(i).cloned().unwrap_or(b'$');
+        //             let x = x  + bb.min.x as u32;
+        //             let y = y + bb.min.y as u32;
+        //             // There's still a possibility that the glyph clips the boundaries of the bitmap
+        //             if x >= 0 && x < width as u32  && y >= 0 && y < pixel_height as u32  {
+        //                 // let x = x as usize;
+        //                 // let y = y as usize;
+        //                 // pixel_data[(x + y * width)] = c;
+        //                 image.put_pixel(x as u32, y as u32, image::Rgba([255,0,0,(v * 255.0 ) as u8]));
+        //             }
+        //         })
+        //     }
+        // }
+        // image.save("test.png");
+    
+ 
     }
 
     pub fn end_frame(&mut self){

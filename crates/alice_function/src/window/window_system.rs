@@ -20,12 +20,16 @@ pub fn window_run(){
     let window_config = MainWindowConfig::new("Alice (webgpu)".to_string(),1280,760);
     let window = WinitWindow::new(&event_loop,&window_config);
 
+    
 
     let rhi = Rc::new(RefCell::new(pollster::block_on(Rhi::new(&window))));
 
     let mut render_pipeline = RenderPipeline::new(RenderPipelineInitInfo { rhi:rhi.clone() });
 
+    let mut ctx = Context{};
 
+    ctx.begin_frame();
+    return ;
     let mut path = Path::new();
     // path.add_line_segment([Vector2f::new(100.0,100.0) , Vector2f::new(500.0,200.0)]);
 
