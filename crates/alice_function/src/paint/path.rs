@@ -1,5 +1,9 @@
 use alice_core::{math::Vector2f, color::Color};
 
+use crate::geometry::rect::Rect;
+
+use super::shape::Round;
+
 
 
 pub const CIRCLE_8: [Vector2f; 9] = [
@@ -303,6 +307,10 @@ impl Path {
         self.0.reserve(additional)
     }
 
+    pub fn clear(&mut self){
+        self.0.clear()
+    }
+
     pub fn add_point(&mut self , pos:Vector2f , normal:Vector2f){
         self.0.push(
             PathPoint { pos, normal}
@@ -342,7 +350,6 @@ impl Path {
         self.reserve(2);
         // 获取到线段法向量
         let normal = (pos[1] - pos[0]).normalize().rot_90();
-
         self.add_point(pos[0], normal);
         self.add_point(pos[1], normal);
     }
@@ -408,21 +415,25 @@ impl Path {
         }
 
     }
-}
 
 
+    pub fn add_rounded_rectangle( path:&mut Vec<Vector2f> , rect:Rect , r:Round ) {
 
+        if r.is_empty() {
+            path.push( rect.left_top() );
+            path.push( rect.right_top() );
+            path.push( rect.right_bottom() );
+            path.push( rect.left_bottom() );
+        }else {
+            add_circle_quadrant(path, Vector2f::new(rect.max_point.x - r.se, rect.max_point.y - r.se), r.se, 0);
+            add_circle_quadrant(path, Vector2f::new(rect.min_point.x + r.sw, rect.max_point.y - r.sw), r.sw, 1);
+            add_circle_quadrant(path, Vector2f::new(rect.min_point.x + r.nw, rect.min_point.y + r.nw), r.nw, 2);
+            add_circle_quadrant(path, Vector2f::new(rect.max_point.x - r.ne, rect.min_point.y + r.ne), r.ne, 3);
+        }
 
-#[derive(Debug , Clone, Copy)]
-pub struct Stroke{
-    pub width:f32,
-    pub color:Color
-}
-
-impl std::default::Default for Stroke {
-    fn default() -> Self {
-        Self { width:1.0 , color: Color::WHITE }
     }
+
+
 }
 
 
@@ -436,7 +447,32 @@ impl std::default::Default for Stroke {
 
 
 
+pub fn add_circle_quadrant( path:&mut Vec<Vector2f> , center:Vector2f , radius:f32 , quadrant: usize ){
+    if radius < 0.0 {
+        path.push(center);
+    }else if radius < 2.0 {
+        let offset = quadrant * 2;
+        let quadrant_vertices = &CIRCLE_8[offset..=offset+2];
+        path.extend(quadrant_vertices.iter().map(|&n| center + n * radius));
+    }else if radius <= 5.0 {
+        let offset = quadrant * 4;
+        let quadrant_vertices = &CIRCLE_16[offset..=offset + 4];
+        path.extend(quadrant_vertices.iter().map(|&n| center + n * radius));
+    } else if radius < 18.0 {
+        let offset = quadrant * 8;
+        let quadrant_vertices = &CIRCLE_32[offset..=offset + 8];
+        path.extend(quadrant_vertices.iter().map(|&n| center + n * radius));
+    } else if radius < 50.0 {
+        let offset = quadrant * 16;
+        let quadrant_vertices = &CIRCLE_64[offset..=offset + 16];
+        path.extend(quadrant_vertices.iter().map(|&n| center + n * radius));
+    } else {
+        let offset = quadrant * 32;
+        let quadrant_vertices = &CIRCLE_128[offset..=offset + 32];
+        path.extend(quadrant_vertices.iter().map(|&n| center + n * radius));
+    }
 
+}
 
 
 

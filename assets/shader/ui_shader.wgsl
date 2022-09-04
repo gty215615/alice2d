@@ -59,11 +59,11 @@ fn vs_main(
 
 // Fragment shader bindings
 
-// @group(1) @binding(0) var r_tex_color: texture_2d<f32>;
-// @group(1) @binding(1) var r_tex_sampler: sampler;
+@group(0) @binding(0) var r_tex_sampler: sampler;
+@group(0) @binding(1) var r_tex_color: texture_2d<f32>;
 
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
-    // return in.color * textureSample(r_tex_color, r_tex_sampler, in.tex_coord);
-    return in.color;
+    return in.color * textureSample(r_tex_color, r_tex_sampler, in.tex_coord);
+
 }

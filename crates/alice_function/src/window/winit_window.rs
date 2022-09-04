@@ -1,4 +1,4 @@
-use alice_core::math::Vector2;
+use alice_core::math::{Vector2, Vector2u};
 use winit::{
     dpi::PhysicalSize,
     
@@ -33,9 +33,9 @@ impl WinitWindow {
         &self.window
     }
 
-    pub fn get_size(&self) -> Vector2<f32> {
+    pub fn get_size(&self) -> Vector2u {
         let size = self.window.inner_size();
-        Vector2::new(size.width as f32, size.height as f32)
+        Vector2u::new(size.width, size.height)
     }
 
  

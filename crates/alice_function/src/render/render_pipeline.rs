@@ -5,7 +5,8 @@ use std::{rc::Rc, cell::RefCell, iter};
 
 
 
-use crate::paint::layer::{PaintJob, ClippedPrimitive};
+
+use crate::{ui::layer::ClippedPrimitive, paint::mesh::Mesh};
 
 use super::{ rhi::Rhi, pass::{ui_pass::UIPass}};
 
@@ -42,7 +43,7 @@ impl RenderPipeline {
 
    
 
-    pub fn draw(&mut self , paint_jobs:&[ClippedPrimitive]){
+    pub fn draw(&mut self , paint_jobs:&[Mesh]){
         // render_pass:&mut wgpu::RenderPass<'pass> ,  rhi:Rc<RefCell<Rhi>>, 
      
         let mut encoder = self.rhi.borrow()

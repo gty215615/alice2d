@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use alice_core::math::{Vector2u, Vector2};
 
 
@@ -8,7 +10,7 @@ use alice_core::math::{Vector2u, Vector2};
 pub struct FontAtlas {
     size:       Vector2<usize>,
     used_place: Vector2<usize>,
-   pub(crate) image:      image::DynamicImage,
+    pub(crate) image:      image::DynamicImage,
     row_height: u32,
 }
 
@@ -24,6 +26,9 @@ impl FontAtlas {
         Self { size: Vector2::new(w,h), used_place: Vector2::new(1,0), image, row_height: 0 }
     }
 
+    pub fn used_space(&self) -> Vector2<usize>{
+        self.used_place
+    }
 
     pub fn allocate(&mut self , (w,h):(usize,usize) ) -> ( (usize,usize) , &mut image::DynamicImage ) {
         
@@ -42,22 +47,6 @@ impl FontAtlas {
         (( space.x , space.y ) , &mut self.image)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -360,6 +360,7 @@ where
         + Default
         + Div<Output = T>
         + Neg<Output = T>
+        + Sub<Output = T>
         + Mul<Output = T>
         + Add<Output = T>
         + Div<Output = T>
@@ -371,6 +372,12 @@ where
             let value = self.x * self.x + self.y * self.y;
             f32::sqrt(value.into())
         }
+
+        // distance
+        pub fn distance(&self, rhs:Vector2<T>) -> f32 {
+           (*self - rhs).length()
+        }
+
         // Normalize
         pub fn normalize(self) -> Vector2<f32> {
             let length = self.length();
@@ -383,6 +390,7 @@ where
 pub type Vector2f = Vector2<f32>;
 pub type Vector2u = Vector2<u32>;
 pub type Vector2i = Vector2<i32>;
+pub type Vector2u16 = Vector2<u16>;
 
 
 unsafe impl bytemuck::Pod for Vector2f {}

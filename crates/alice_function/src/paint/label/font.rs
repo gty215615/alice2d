@@ -1,4 +1,6 @@
 
+use std::collections::HashMap;
+
 use ab_glyph::{ScaleFont};
 use alice_core::math::{Vector2u, Vector2f};
 use image::{GenericImage, GenericImageView};
@@ -6,7 +8,7 @@ use image::{GenericImage, GenericImageView};
 use super::texture_atlas::FontAtlas;
 
 
-#[derive(Debug,Default)]
+#[derive(Debug,Default , Clone, Copy)]
 pub struct UvRect {
     pub offset:Vector2f,
     pub size:Vector2f,  // 屏幕上显示的大小
@@ -15,21 +17,30 @@ pub struct UvRect {
     pub max:[u16;2], // 右下角
 }
 
+pub const DEFAULT_FONT_SIZE:f32 = 24.0;
 
+#[derive(Clone, Copy)]
 pub struct GlyphInfo {
     id:ab_glyph::GlyphId,
 
-    advance_width:f32,
+   pub advance_width:f32,
 
-    uv:UvRect
+   pub uv:UvRect
 }
+
+#[derive(Clone, Copy)]
+pub struct IconInfo {
+   pub uv:UvRect
+}
+
 
 
 // 存储一种字体, 大小要固定
 pub struct Font {
     font: ab_glyph::FontArc,
     font_atlas: FontAtlas,
-    
+    font_cache: HashMap<char , GlyphInfo>,
+    icon_cache: HashMap<String , IconInfo>,
 }
 
 
@@ -40,13 +51,22 @@ impl Font {
 
         let font_atlas = FontAtlas::new(1024, 64);
 
-        Self { font, font_atlas }
+        Self { font, font_atlas , font_cache:HashMap::new()  , icon_cache:HashMap::new()}
     }
 
-    pub fn glyph_info(&mut self , chr:char){
+    pub fn glyph_info(&mut self , chr:char) -> GlyphInfo{
         use ab_glyph::Font as _;
+
+        if self.font_cache.contains_key(&chr){
+            return *self.font_cache.get(&chr).unwrap();
+        }
+
         let id = self.font.glyph_id(chr);
-        allocate_glyph(&mut self.font_atlas, &mut self.font, id, 24.0);
+        let glyph_info = allocate_glyph(&mut self.font_atlas, &mut self.font, id, DEFAULT_FONT_SIZE);
+
+        self.font_cache.insert(chr, glyph_info);
+
+        glyph_info
     }
 
     pub fn pre_common_char(&mut self){
@@ -57,7 +77,44 @@ impl Font {
             self.glyph_info(c);
         }
 
+        self.compose_icon("assets/icon/checked.png");
+        self.compose_icon("assets/icon/unchecked.png");
         self.font_atlas.image.save("test.png");
+    }
+
+
+    pub fn query_icon(&mut self , path:&str) -> IconInfo {
+        if self.icon_cache.contains_key(&path.to_owned()) {
+             *self.icon_cache.get(path).unwrap()
+        }else{
+            self.compose_icon(path)
+        }
+    }
+
+    pub fn compose_icon(&mut self , path:&str) -> IconInfo {
+        use image::io::Reader as ImageReader;
+        let img = ImageReader::open(path).expect(&format!("load image {} failed",path)).decode().expect(&format!("decode image {} failed",path));
+        let size = img.dimensions();
+      
+        let (pos , atlas) = self.font_atlas.allocate((size.0 as usize , size.1 as usize));
+        
+        atlas.copy_from(&img, pos.0 as u32, pos.1 as u32);
+
+
+      
+        let uv = UvRect {
+            offset:Vector2f::ZERO,
+            size:Vector2f::new(size.0 as f32,size.1 as f32),
+            min: [pos.0 as u16,pos.1 as u16],
+            max:[(pos.0 + size.0 as usize) as u16 , (pos.1 + size.1 as usize) as u16],
+        };
+
+        let icon_info = IconInfo {
+            uv
+        };
+
+        self.icon_cache.insert(path.to_owned(), icon_info);
+        icon_info
     }
 
 }
@@ -82,19 +139,13 @@ pub fn allocate_glyph( atlas:&mut FontAtlas , font:&mut ab_glyph::FontArc , glyp
             glyph.draw(|x,y,c|{          
                 let x = pos.0 as u32 + x ;
                 let y = pos.1 as u32 + y;
-                 // Offset the position by the glyph bounding box
-                let px = image.get_pixel(x, y);
-                 // Turn the coverage into an alpha value (blended with any previous)
-                let px = image::Rgba([
+              
+                image.put_pixel(x, y, image::Rgba([
                     255,
-                    0,
-                    0,
-                    px.0[3].saturating_add((c * 255.0) as u8),
-                ]);
-                image.put_pixel(x, y, px);
-                // image.put_pixel(x, y + font_size as u32, px);
-                    
-               
+                    255,
+                    255,
+                    (c * 255.0) as u8
+                ]));
             });
     
     
