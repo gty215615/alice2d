@@ -1,6 +1,6 @@
 use alice_core::{math::Vector2f, color::{Rgba, Color}};
 
-use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces}, layer::LayerId, id::Id, store::Store}};
+use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces}, layer::LayerId, id::Id, store::Store, response::Response}};
 
 use super::{label::Label, icon::Icon};
 
@@ -36,7 +36,7 @@ impl<'a> Checkbox<'a> {
     pub fn new( checked:&'a mut bool ,text:&str ) -> Self {
         Self { 
             checked,
-            size: Vector2f::new(130.0,32.0), 
+            size: Vector2f::new(150.0,32.0), 
             pos: Vector2f::ZERO, 
             text: text.to_owned(), 
             background: Rgba::WHITE, 
@@ -104,10 +104,10 @@ impl<'a> Checkbox<'a> {
 }
 
 impl<'a> super::Widget for Checkbox<'a> {
-    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) {
+    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) -> Response {
 
       
-        let ( x, y ) = ctx.layout.allocate((self.size.x,self.size.y));
+        let (id ,( x, y )) = ctx.allocate_virtual_space((self.size.x,self.size.y));
         if self.pos.x < x {
             self.pos.x = x;
         }
@@ -120,7 +120,7 @@ impl<'a> super::Widget for Checkbox<'a> {
 
         let rect = Rect::from_min_size(self.pos, self.size);
 
-        let response = ctx.ctx.interact(Id::new("Checkbox") , rect);
+        let response = ctx.ctx.interact(id , rect);
 
         if response.clicked() {
    
@@ -139,9 +139,15 @@ impl<'a> super::Widget for Checkbox<'a> {
             painter.add_shape(LayerId::Document,shape);
         }
 
-        Icon::new(icon_path).set_style(StyleSheet::Width(32.0)).set_style(StyleSheet::Position(self.pos)).ui(ctx);
-        Label::new(&self.text).set_style(StyleSheet::Width(self.size.x - 32.0)).set_style(StyleSheet::Position(Vector2f::new(self.pos.x + 32.0,self.pos.y))).ui(ctx);
 
+
+        Icon::new(icon_path).ui(ctx);
+        Label::new(&self.text).ui(ctx);
+
+    
+        ctx.active_virtual_space((x + self.size.x,y));
+
+        response
 
     }
 }

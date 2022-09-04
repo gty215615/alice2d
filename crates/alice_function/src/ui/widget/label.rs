@@ -1,6 +1,6 @@
 use alice_core::{math::Vector2f, color::{Rgba, Color}};
 
-use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces, Position}, layer::LayerId}};
+use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces, Position}, layer::LayerId, response::{self, Response}}};
 
 pub struct Label {
     // 大小
@@ -50,27 +50,50 @@ impl Label {
 }
 
 impl super::Widget for Label {
-    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) {
+    fn ui(&mut self, ctx:&mut super::ui_context::UiContext)-> Response {
      
-
-        let painter = &mut ctx.ctx.borrow_mut().painter;
-
+ 
         let mut advance_width = 0.0;
         let mut str = String::new();
-        for chr in self.text.chars() {
-            advance_width += painter.font.glyph_info(chr).advance_width;
-            if advance_width < self.size.x {
-                str.push(chr)
-            }else{
-                break;
+        let mut height = 0.0;
+            
+       {
+            let painter = &mut ctx.ctx.borrow_mut().painter;
+
+            for chr in self.text.chars() {
+                let info = painter.font.glyph_info(chr);
+                advance_width += info.advance_width;
+                height = info.uv.size.y;
+                if advance_width < self.size.x {
+                    str.push(chr)
+                }else{
+                    break;
+                }
             }
+       }
+
+   
+        let (id , ( x, y )) = ctx.allocate((advance_width,32.0));
+
+        
+        if self.pos.x < x {
+            self.pos.x = x;
         }
 
-    
+        if self.pos.y < y {
+            self.pos.y = y
+        }
 
+
+        let rect = Rect::from_min_size(self.pos, Vector2f::new(advance_width,32.0));
+
+        let response = ctx.ctx.interact(id , rect);
+
+        let painter = &mut ctx.ctx.borrow_mut().painter;
 
         let text = Shape::draw_text(&str, self.color, self.pos);
         painter.add_shape(LayerId::Document,text);
 
+        response
     }
 }

@@ -14,6 +14,7 @@ pub struct Panel {
      margin:Spaces,
      // 内边距
      padding:Spaces,
+     id:Id
 
 }
 
@@ -21,7 +22,7 @@ pub struct Panel {
 /// props 
 /// 
 impl Panel {
-    pub fn default() -> Self {
+    pub fn new(id:&str) -> Self {
         Self {
             pos:                Default::default(),
             size:               Default::default(),
@@ -30,7 +31,7 @@ impl Panel {
             margin:             Default::default() ,
             padding:            Default::default(),
            
-   
+            id:                 Id::new(id)
         }
     }
 
@@ -119,7 +120,7 @@ impl super::Container for Panel {
   
         ctx.borrow_mut().painter.add_shape( LayerId::Document , shape);
    
-        let mut ui = UiContext::new(self.pos + Vector2f::new( self.padding.left,self.padding.top ), &self.size,ctx.clone());
+        let mut ui = UiContext::new(self.id , self.pos + Vector2f::new( self.padding.left,self.padding.top ), &self.size,ctx.clone());
         
         render_children(&mut ui);
         

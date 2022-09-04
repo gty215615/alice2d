@@ -1,6 +1,6 @@
 use alice_core::{math::Vector2f, color::{Rgba, Color}};
 
-use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces, Position}, layer::LayerId}};
+use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces, Position}, layer::LayerId, response::Response}};
 
 pub struct Icon {
     // 大小
@@ -64,14 +64,24 @@ impl Icon {
 }
 
 impl super::Widget for Icon {
-    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) {
+    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) -> Response {
         
        
+ 
+        let (id ,( x, y )) = ctx.allocate((self.size.x,self.size.y));
+        if self.pos.x < x {
+            self.pos.x = x;
+        }
 
+        if self.pos.y < y {
+            self.pos.y = y
+        }
+        let rect = Rect::from_min_size(self.pos, self.size);
 
+        let response = ctx.ctx.interact(id , rect);
         let shape = Shape::draw_icon(&self.path, self.size, self.pos);
         let painter = &mut ctx.ctx.borrow_mut().painter;
         painter.add_shape(LayerId::Document,shape);
-
+        response
     }
 }

@@ -1,8 +1,13 @@
 use alice_core::{math::Vector2f, color::{Rgba, Color}};
 
-use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces, Position}, layer::LayerId, response::Response}};
+use crate::{geometry::rect::Rect, paint::shape::Shape, ui::{style::{StyleSheet, Spaces}, layer::LayerId, id::Id, store::Store, response::Response}};
 
-pub struct Button {
+use super::{label::Label, icon::Icon};
+
+
+pub struct Radio {
+
+    checked:bool,
     // 大小
     size:Vector2f,
     // 位置
@@ -17,28 +22,31 @@ pub struct Button {
     margin:Spaces,
     // 内边距
     padding:Spaces,
-
+    // 选中icon
+    checked_icon:String,
+    // 未选中icon
+    uncheck_icon:String
 
 
 }
 
 
 // set props
-impl Button {
-    pub fn new( text:&str ) -> Self {
+impl Radio {
+    pub fn new( checked:bool ,text:&str ) -> Self {
         Self { 
-            size: Vector2f::new(120.0,32.0), 
+            checked,
+            size: Vector2f::new(150.0,32.0), 
             pos: Vector2f::ZERO, 
             text: text.to_owned(), 
             background: Rgba::WHITE, 
             color: Rgba::BLACK,
             margin:Default::default() ,
             padding:Default::default(),
- 
-   
+            checked_icon:String::from("assets/icon/checked.png"),
+            uncheck_icon:String::from("assets/icon/unchecked.png")
         }
     }
-
     pub fn set_style(mut self ,style:StyleSheet) -> Self {
         match style {
             StyleSheet::Background(bg)=> {
@@ -89,11 +97,17 @@ impl Button {
         };
         self
     }
+
+
+
+ 
 }
 
-impl super::Widget for Button {
-    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) -> Response {
-        let (id , ( x, y )) = ctx.allocate((self.size.x,self.size.y));
+impl super::Widget for Radio {
+    fn ui(&mut self, ctx:&mut super::ui_context::UiContext) -> Response{
+
+      
+        let (id ,( x, y )) = ctx.allocate_virtual_space((self.size.x,self.size.y));
         if self.pos.x < x {
             self.pos.x = x;
         }
@@ -102,14 +116,44 @@ impl super::Widget for Button {
             self.pos.y = y
         }
 
-       
+ 
 
         let rect = Rect::from_min_size(self.pos, self.size);
 
         let response = ctx.ctx.interact(id , rect);
-        let shape = Shape::fill_rect( rect , Color::BLUE, 0.0 );
-        let painter = &mut ctx.ctx.borrow_mut().painter;
-        painter.add_shape(LayerId::Document,shape);
+
+        let (fill,icon_path) = if self.checked {
+            (ctx.ctx.borrow().theme.success_color,&self.checked_icon)
+        }else{
+            (ctx.ctx.borrow().theme.error_color,&self.uncheck_icon)
+        };
+
+        {
+            let shape = Shape::fill_rect( rect , fill, 0.0 );
+            let painter = &mut ctx.ctx.borrow_mut().painter;
+            painter.add_shape(LayerId::Document,shape);
+        }
+
+
+
+        Icon::new(icon_path).ui(ctx);
+        Label::new(&self.text).ui(ctx);
+
+  
+        ctx.active_virtual_space((x + self.size.x,y));
+
+
         response
+        // {
+
+        //     // debug
+        //     let rect = Rect::from_min_size(ctx.layout.pos, ctx.layout.used_space);
+
+        //     let shape = Shape::fill_rect( rect , Rgba::MIDDLE_SPRING_GREEN, 0.0 );
+        //     let painter = &mut ctx.ctx.borrow_mut().painter;
+        //     painter.add_shape(LayerId::Document,shape);
+        // }
+
+
     }
 }
