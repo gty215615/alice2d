@@ -44,11 +44,14 @@ impl Gui {
                     
                 ui.label("Test Checkbox");
                 ui.same_line();
-                ui.checkbox(&mut self.checked,"checkbox0");
+                ui.checkbox(&mut self.checked,"show radio");
              
             });
 
-            Panel::new("Checkbox Panel1")
+   
+           
+            if self.checked {
+                Panel::new("Radio Panel")
                 .set_style(StyleSheet::MarginLeft(20.0))
                 .set_style(StyleSheet::MarginTop(20.0))
                 .set_style(StyleSheet::PaddingLeft(20.0))
@@ -56,40 +59,26 @@ impl Gui {
                 .set_style(StyleSheet::Height(200.0))
                 .show(&mut self.ctx,|ui| {
                     
-                ui.label("Test Checkbox");
+                ui.label("Test Radio Group");
                 ui.same_line();
-                ui.checkbox(&mut self.checked,"checkbox0");
-              
-            });
-
-           
-
-
-        //     Panel::new("Radio Panel")
-        //     .set_style(StyleSheet::MarginLeft(20.0))
-        //     .set_style(StyleSheet::MarginTop(20.0))
-        //     .set_style(StyleSheet::PaddingLeft(20.0))
-        //     .set_style(StyleSheet::Width(400.0))
-        //     .set_style(StyleSheet::Height(200.0))
-        //     .show(&mut self.ctx,|ui| {
+                if ui.radio(self.radio == RadioEnum::First,"First").clicked() {
+                    self.radio = RadioEnum::First;
+                };
+                ui.same_line();
+                if ui.radio(self.radio == RadioEnum::Second,"Second").clicked() {
+                    self.radio = RadioEnum::Second;
+                };
+               
+                ui.same_line();
                 
-        //     ui.label("Test Radio Group");
-        //     ui.same_line();
-        //     if ui.radio(self.radio == RadioEnum::First,"First").clicked() {
-        //         self.radio = RadioEnum::First;
-        //     };
-        //     ui.same_line();
-        //     if ui.radio(self.radio == RadioEnum::Second,"Second").clicked() {
-        //         self.radio = RadioEnum::Second;
-        //     };
+                if ui.radio(self.radio == RadioEnum::Third,"third").clicked() {
+                    self.radio = RadioEnum::Third;
+                };
+               
+            });
+            }
+
            
-        //     ui.same_line();
-            
-        //     if ui.radio(self.radio == RadioEnum::Third,"third").clicked() {
-        //         self.radio = RadioEnum::Third;
-        //     };
-           
-        // });
       
            
 

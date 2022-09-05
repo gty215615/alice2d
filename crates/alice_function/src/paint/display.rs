@@ -24,7 +24,7 @@ impl Layout {
          
         let mut space = self.pos + self.used_space;
       
-        if w + self.used_space.x + self.pos.x > self.size.x {
+        if w + self.used_space.x  > self.size.x {
             // 换行
             self.used_space.x = 0.0;
             self.used_space.y += self.row_height;
@@ -44,7 +44,7 @@ impl Layout {
     pub fn allocate_virtual_space(&mut self ,  (w,h):(f32,f32) ) -> ( f32 , f32 ) {
         let mut space = self.pos + self.used_space;
       
-        if w + self.used_space.x + self.pos.x > self.size.x {
+        if w + self.used_space.x > self.size.x {
             // 换行
             self.used_space.x = 0.0;
             self.used_space.y += self.row_height;

@@ -11,7 +11,7 @@ pub struct FontAtlas {
     size:       Vector2<usize>,
     used_place: Vector2<usize>,
     pub(crate) image:      image::DynamicImage,
-    row_height: u32,
+    row_height: usize,
 }
 
 impl FontAtlas {
@@ -32,15 +32,19 @@ impl FontAtlas {
 
     pub fn allocate(&mut self , (w,h):(usize,usize) ) -> ( (usize,usize) , &mut image::DynamicImage ) {
         
-        let space = self.used_place;
+        let mut space = self.used_place;
+
+     
         if w + self.used_place.x > self.size.x {
             // 换行
             self.used_place.x = 0;
-            self.used_place.y += h;
-        }else{
-            self.used_place.x += w;
-            
-        }   
+            self.used_place.y += self.row_height;
+            self.row_height = 0;
+            space = self.used_place;
+        }
+        self.used_place.x += w;
+             
+        self.row_height = if self.row_height < h { h } else { self.row_height };
 
         // TODO used_place.y > size.y ???
         

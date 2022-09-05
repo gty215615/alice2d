@@ -79,6 +79,8 @@ impl Font {
 
         self.compose_icon("assets/icon/checked.png");
         self.compose_icon("assets/icon/unchecked.png");
+        self.compose_icon("assets/icon/select.png");
+        self.compose_icon("assets/icon/unselect.png");
         self.font_atlas.image.save("test.png");
     }
 

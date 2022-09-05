@@ -346,7 +346,6 @@ pub fn draw_icon( font:&mut Font , path:&str , pos:Vector2f , out:&mut Mesh) {
 
     if !path.is_empty() {
 
-        let n = path.len();
 
         out.reserve_vertex(4);
         out.reserve_index(2);

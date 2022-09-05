@@ -43,8 +43,8 @@ impl Radio {
             color: Rgba::BLACK,
             margin:Default::default() ,
             padding:Default::default(),
-            checked_icon:String::from("assets/icon/checked.png"),
-            uncheck_icon:String::from("assets/icon/unchecked.png")
+            checked_icon:String::from("assets/icon/select.png"),
+            uncheck_icon:String::from("assets/icon/unselect.png")
         }
     }
     pub fn set_style(mut self ,style:StyleSheet) -> Self {

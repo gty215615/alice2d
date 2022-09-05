@@ -12,6 +12,8 @@ pub mod ui_context;
 
 pub mod label;
 
+pub mod text_edit;
+
 pub mod icon;
 
 pub trait Widget {
