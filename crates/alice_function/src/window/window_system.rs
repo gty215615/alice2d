@@ -187,7 +187,7 @@ pub fn window_run(){
             }
             Event::MainEventsCleared => {
                 // 除非手动请求，否则 RedrawRequested 只会触发一次
-                window.get_window().request_redraw()
+                // window.get_window().request_redraw()
              
                 // let mut window_system = engine.ctx.as_ref().unwrap().window_system.borrow_mut();
                

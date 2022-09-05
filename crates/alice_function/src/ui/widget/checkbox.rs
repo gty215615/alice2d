@@ -105,7 +105,7 @@ impl<'a> Checkbox<'a> {
 
 impl<'a> super::Widget for Checkbox<'a> {
     fn ui(&mut self, ctx:&mut super::ui_context::UiContext) -> Response {
-
+        
       
         let (id ,( x, y )) = ctx.allocate_virtual_space((self.size.x,self.size.y));
         if self.pos.x < x {
